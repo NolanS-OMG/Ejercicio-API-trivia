@@ -128,7 +128,6 @@ const beforeStartGame = () => {
 
 const startGame = () => {
   let currentQuestion = questions[questionIndex];
-  console.log(questions);
   document.getElementById("questionName").innerText = currentQuestion.question;
 
   document.getElementById("currentScore").innerText = currentScore;
@@ -164,7 +163,6 @@ const startGame = () => {
       j++;
     }
   }
-  console.log(currentCorrectAnswer);
 };
 
 const scores = () => {

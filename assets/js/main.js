@@ -29,6 +29,14 @@ let tableDiv = document.getElementById("scoresContainer");
 let restartButton = document.getElementById("restart");
 let changePlayerButton = document.getElementById("changePlayer");
 
+// Variables para almacenar sonidos
+let correctAnswerSound = document.getElementById("correct-answer-audio");
+let wrongAnswerSound = document.getElementById("wrong-answer-audio");
+// let backgroundSound = document.getElementById("background-music");
+let buttonSound = document.getElementById("button-audio");
+let clockSound = document.getElementById("clock-music");
+let messageSound = document.getElementById("message-audio");
+
 // Variables de control
 let players = JSON.parse(localStorage.getItem("playerStorageArray"));
 let playerIndex = -1;
@@ -63,6 +71,9 @@ const createInfoBox = phrase => {
   infoDiv.appendChild(iSquare);
   infoDiv.appendChild(phraseDiv);
 
+  messageSound.load();
+  messageSound.play();
+
   return infoDiv;
 }
 
@@ -83,6 +94,9 @@ const createTimeBar = () => {
 
 // Guarda el usuario y abre la siguiente sección
 const submitPlayerName = () => {
+
+  buttonSound.load();
+  buttonSound.play();
 
   if (document.getElementById("playerName").value.trim() === "") {
     initPage.appendChild(createInfoBox("Ese nombre no es válido"));
@@ -122,6 +136,8 @@ const submitPlayerName = () => {
 
 // Recoge las preguntas elegidas y llama a 'beforeStartGame'
 let getAPIData = e => {
+  buttonSound.load();
+  buttonSound.play();
   e.preventDefault();
   maxTime = parseInt(questionsTime.value);
   let url = `https://opentdb.com/api.php?amount=${questionsAmount.value}&category=${questionsCategory.value}`;
@@ -188,7 +204,6 @@ const beforeStartGame = () => {
 
 // Crea la pregunta en cuestión
 const startGame = () => {
-  answerAtTime = false;
   let currentQuestion = questions[questionIndex];
   document.getElementById("questionName").innerText = currentQuestion.question;
 
@@ -290,48 +305,79 @@ const scores = () => {
 
 // Obtiene la respuesta 1
 const ans1 = () => {
+  buttonSound.load();
+  buttonSound.play();
   answerAtTime = true;
   if (currentCorrectAnswer === 1) {
     currentScore = currentScore + 1;
+    correctAnswerSound.load();
+    correctAnswerSound.play();
+  } else {
+    wrongAnswerSound.load();
+    wrongAnswerSound.play();
   }
   beforeStartGame();
 }
 
 // Obtiene la respuesta 2
 const ans2 = () => {
+  buttonSound.load();
+  buttonSound.play();
   answerAtTime = true;
   if (currentCorrectAnswer === 2) {
     currentScore = currentScore + 1;
+    correctAnswerSound.load();
+    correctAnswerSound.play();
+  } else {
+    wrongAnswerSound.load();
+    wrongAnswerSound.play();
   }
   beforeStartGame();
 }
 
 // Obtiene la respuesta 3
 const ans3 = () => {
+  buttonSound.load();
+  buttonSound.play();
   answerAtTime = true;
   if (currentCorrectAnswer === 3) {
     currentScore = currentScore + 1;
+    correctAnswerSound.load();
+    correctAnswerSound.play();
+  } else {
+    wrongAnswerSound.load();
+    wrongAnswerSound.play();
   }
   beforeStartGame();
 }
 
 // Obtiene la respuesta 4
 const ans4 = () => {
+  buttonSound.load();
+  buttonSound.play();
   answerAtTime = true;
   if (currentCorrectAnswer === 4) {
     currentScore = currentScore + 1;
+    correctAnswerSound.load();
+    correctAnswerSound.play();
+  } else {
+    wrongAnswerSound.load();
+    wrongAnswerSound.play();
   }
   beforeStartGame();
 }
 
 // Nos regresa del final del juego a elegir las preguntas
 const startAgain = () => {
+  buttonSound.load();
+  buttonSound.play();
   scorePage.style.display = "none";
   formPage.style.display = "block";
   playerIndex = -1;
   questionIndex = -1;
   currentScore = 0;
   scoreIsShown = false;
+  answerAtTime = false;
 
   let infoMessages = document.getElementsByClassName("corner-message-container");
   for (let i = 0; i < infoMessages.length; i++) {
@@ -346,12 +392,15 @@ const startAgain = () => {
 
 // Nos lleva del final del juego al inicio del mismo
 const changePlayer = () => {
+  buttonSound.load();
+  buttonSound.play();
   scorePage.style.display = "none";
   initPage.style.display = "block";
   playerIndex = -1;
   questionIndex = -1;
   currentScore = 0;
   scoreIsShown = false;
+  answerAtTime = false;
   tableDiv.innerHTML = "";
 
   let infoMessages = document.getElementsByClassName("corner-message-container");
@@ -364,6 +413,13 @@ const changePlayer = () => {
     timeBars[i].style.display = "none";
   }
 }
+
+// const playBackgroundMusic = () => {
+//   backgroundSound.load();
+//   backgroundSound.play();
+// }
+
+//document.addEventListener("DOMContentLoaded", playBackgroundMusic);
 
 playerNameButton.addEventListener("click", submitPlayerName);
 

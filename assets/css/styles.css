@@ -65,6 +65,10 @@ select {
 
 /* CLASES */
 
+.audio {
+    display: none;
+}
+
 /* INITIAL */
 
 @keyframes background-animation {
@@ -336,6 +340,14 @@ select {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+}
+
+.question-field select {
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    border: solid 2px black;
+    border-radius: 3px;
+    background-color: white;
 }
 
 .simulate-btn {

@@ -204,6 +204,11 @@ const beforeStartGame = () => {
 
 // Crea la pregunta en cuestión
 const startGame = () => {
+  if (maxTime > 0) {
+    clockSound.load();
+    clockSound.play();
+  }
+
   let currentQuestion = questions[questionIndex];
   document.getElementById("questionName").innerText = currentQuestion.question;
 
@@ -244,6 +249,9 @@ const startGame = () => {
 
 // Quita las preguntas y nos lleva a la página final
 const scores = () => {
+  if (maxTime > 0) {
+    clockSound.pause();
+  }
   answerAtTime = true;
   scoreIsShown = true;
 

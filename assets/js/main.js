@@ -16,6 +16,7 @@ let questionsAmount = document.getElementById("amount");
 let questionsCategory = document.getElementById("category");
 let questionsDifficulty = document.getElementById("difficulty");
 let questionsType = document.getElementById("type");
+let questionsTime = document.getElementById("time");
 
 // Botones para las respuestas
 let answer1 = document.getElementById("answer1");
@@ -35,8 +36,11 @@ let questions;
 let questionIndex = -1;
 let currentScore = 0;
 let currentCorrectAnswer = 0;
+let maxTime = 5000;
+let answerAtTime = false;
+let scoreIsShown = false;
 
-// Crea un div en la esquina superior derecha
+// Crea un div en la esquina superior derecha con animación
 const createInfoBox = phrase => {
   let infoDiv = document.createElement("div");
   infoDiv.setAttribute("class", "corner-message-container");
@@ -60,6 +64,21 @@ const createInfoBox = phrase => {
   infoDiv.appendChild(phraseDiv);
 
   return infoDiv;
+}
+
+// Crea una que marca el tiempo de la pregunta en cuestión
+const createTimeBar = () => {
+  let timeBarDivContainer = document.createElement("div");
+  timeBarDivContainer.setAttribute("class", "time-bar-container");
+
+  timeBarDivContainer.style.animationDuration = (maxTime/1000).toString() + "s";
+
+  let timeBarDiv = document.createElement("div");
+  timeBarDiv.style.animationDuration = (maxTime/1000).toString() + "s";
+
+  timeBarDivContainer.appendChild(timeBarDiv);
+
+  return timeBarDivContainer;
 }
 
 // Guarda el usuario y abre la siguiente sección
@@ -104,6 +123,7 @@ const submitPlayerName = () => {
 // Recoge las preguntas elegidas y llama a 'beforeStartGame'
 let getAPIData = e => {
   e.preventDefault();
+  maxTime = parseInt(questionsTime.value);
   let url = `https://opentdb.com/api.php?amount=${questionsAmount.value}&category=${questionsCategory.value}`;
   if ((questionsDifficulty.value !== 0) && (questionsType.value !== "boolean")) {
     url += `&difficulty=${questionsDifficulty.value}&type=${questionsType.value}`
@@ -123,25 +143,52 @@ let getAPIData = e => {
     });
 };
 
+// Es el cronómetro de cada pregunta
+const timer = () => {
+  if (answerAtTime) {
+    answerAtTime = false;
+  } else {
+    if (questionIndex >= questions.length - 1) {
+      if (scoreIsShown === false) {
+        questionsPage.style.display = "none";
+        scorePage.style.display = "block";
+        scores();
+      }
+    } else {
+      questionIndex += 1;
+      questionsPage.appendChild( createTimeBar() );
+      setTimeout(timer, maxTime);
+      startGame();
+    }
+  }
+}
+
 // Pregunta si el jugador terminó de contestar o no sus preguntas
 // Si apenas empieza, lanza la pregunta, si está contestando en medio, lanza la siguiente
 // Si contestó todas llama a 'scores'
 const beforeStartGame = () => {
   questionIndex = questionIndex + 1;
 
-  if (questionIndex === questions.length) {
-    questionsPage.style.display = "none";
-    scorePage.style.display = "block";
-    scores();
+  if (questionIndex >= questions.length) {
+    if (scoreIsShown === false) {
+      questionsPage.style.display = "none";
+      scorePage.style.display = "block";
+      scores();
+    }
   } else {
     formPage.style.display = "none";
     questionsPage.style.display = "block";
+    if (maxTime > 0) {
+      questionsPage.appendChild(createTimeBar());
+      setTimeout(timer, maxTime);
+    }
     startGame();
   }
 }
 
 // Crea la pregunta en cuestión
 const startGame = () => {
+  answerAtTime = false;
   let currentQuestion = questions[questionIndex];
   document.getElementById("questionName").innerText = currentQuestion.question;
 
@@ -182,6 +229,8 @@ const startGame = () => {
 
 // Quita las preguntas y nos lleva a la página final
 const scores = () => {
+  answerAtTime = true;
+  scoreIsShown = true;
 
   if (players[playerIndex].highScore < currentScore) {
     players[playerIndex].highScore = currentScore;
@@ -241,6 +290,7 @@ const scores = () => {
 
 // Obtiene la respuesta 1
 const ans1 = () => {
+  answerAtTime = true;
   if (currentCorrectAnswer === 1) {
     currentScore = currentScore + 1;
   }
@@ -249,6 +299,7 @@ const ans1 = () => {
 
 // Obtiene la respuesta 2
 const ans2 = () => {
+  answerAtTime = true;
   if (currentCorrectAnswer === 2) {
     currentScore = currentScore + 1;
   }
@@ -257,6 +308,7 @@ const ans2 = () => {
 
 // Obtiene la respuesta 3
 const ans3 = () => {
+  answerAtTime = true;
   if (currentCorrectAnswer === 3) {
     currentScore = currentScore + 1;
   }
@@ -265,6 +317,7 @@ const ans3 = () => {
 
 // Obtiene la respuesta 4
 const ans4 = () => {
+  answerAtTime = true;
   if (currentCorrectAnswer === 4) {
     currentScore = currentScore + 1;
   }
@@ -278,6 +331,17 @@ const startAgain = () => {
   playerIndex = -1;
   questionIndex = -1;
   currentScore = 0;
+  scoreIsShown = false;
+
+  let infoMessages = document.getElementsByClassName("corner-message-container");
+  for (let i = 0; i < infoMessages.length; i++) {
+    infoMessages[i].style.display = "none";
+  }
+
+  let timeBars = document.getElementsByClassName("time-bar-container");
+  for (let i = 0; i < infoMessages.length; i++) {
+    timeBars[i].style.display = "none";
+  }
 }
 
 // Nos lleva del final del juego al inicio del mismo
@@ -287,7 +351,18 @@ const changePlayer = () => {
   playerIndex = -1;
   questionIndex = -1;
   currentScore = 0;
+  scoreIsShown = false;
   tableDiv.innerHTML = "";
+
+  let infoMessages = document.getElementsByClassName("corner-message-container");
+  for (let i = 0; i < infoMessages.length; i++) {
+    infoMessages[i].style.display = "none";
+  }
+
+  let timeBars = document.getElementsByClassName("time-bar-container");
+  for (let i = 0; i < timeBars.length; i++) {
+    timeBars[i].style.display = "none";
+  }
 }
 
 playerNameButton.addEventListener("click", submitPlayerName);

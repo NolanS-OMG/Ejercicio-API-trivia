@@ -153,17 +153,17 @@ select {
 }
 
 .button-container {
+    width: 95%;
     margin: auto;
-    width: 35%;
+    display: flex;
+    justify-content: space-around;
 }
 .button-container button {
     border-radius: 4px;
     border: solid 2px black;
     background-color: var(--yellow-btn);
     font-size: 1.25rem;
-    height: 90%;
-    width: 90%;
-    margin: 5%;
+    width: 35%;
 }
 
 .button-container button:hover {

@@ -26,6 +26,7 @@ let answer4 = document.getElementById("answer4");
 // Elementos HTML del final
 let tableDiv = document.getElementById("scoresContainer");
 let restartButton = document.getElementById("restart");
+let changePlayerButton = document.getElementById("changePlayer");
 
 // Variables de control
 let players = JSON.parse(localStorage.getItem("playerStorageArray"));
@@ -35,6 +36,7 @@ let questionIndex = -1;
 let currentScore = 0;
 let currentCorrectAnswer = 0;
 
+// Crea un div en la esquina superior derecha
 const createInfoBox = phrase => {
   let infoDiv = document.createElement("div");
   infoDiv.setAttribute("class", "corner-message-container");
@@ -49,7 +51,7 @@ const createInfoBox = phrase => {
   phraseDiv.setAttribute("class", "corner-message-text-container");
 
   let phrasePar = document.createElement("p");
-  phrasePar.innerText = phrase;
+  phrasePar.innerText = phrase.trim();
 
   phraseDiv.appendChild(phrasePar);
   iSquare.appendChild(iText);
@@ -60,26 +62,33 @@ const createInfoBox = phrase => {
   return infoDiv;
 }
 
+// Guarda el usuario y abre la siguiente sección
 const submitPlayerName = () => {
-  let playerName = document.getElementById("playerName").value;
+
+  if (document.getElementById("playerName").value.trim() === "") {
+    initPage.appendChild(createInfoBox("Ese nombre no es válido"));
+    return;
+  }
+
+  let playerName = document.getElementById("playerName").value.trim();
 
   let infoPhrase = ""
 
-  if (players === null) {
+  if ((players === null)  || (players === [])) {
     players = [{name:playerName.toLowerCase(), highScore:0}];
     playerIndex = 0;
-    infoPhrase = "Se agregó un usuario nuevo"
+    infoPhrase = "Se agregó un usuario nuevo";
   } else {
     players.forEach((player, index) => {
       if (playerName.toLowerCase() === player.name) {
         playerIndex = index;
-        infoPhrase = "Bienvenido de nuevo " + playerName
+        infoPhrase = "Bienvenido de nuevo " + playerName.trim();
       }
     });
     if (playerIndex === -1) {
-      userIndex = players.length;
+      playerIndex = players.length;
       players.push({name: playerName.toLowerCase(), highScore: 0});
-      infoPhrase = "Se agregó un usuario nuevo"
+      infoPhrase = "Se agregó un usuario nuevo";
     }
   }
 
@@ -92,12 +101,14 @@ const submitPlayerName = () => {
   formPage.appendChild(createInfoBox(infoPhrase));
 }
 
+// Recoge las preguntas elegidas y llama a 'beforeStartGame'
 let getAPIData = e => {
   e.preventDefault();
   let url = `https://opentdb.com/api.php?amount=${questionsAmount.value}&category=${questionsCategory.value}`;
   if ((questionsDifficulty.value !== 0) && (questionsType.value !== "boolean")) {
     url += `&difficulty=${questionsDifficulty.value}&type=${questionsType.value}`
   } else if (questionsDifficulty.value !== 0) {
+    questionsPage.appendChild( createInfoBox("True/False no tiene dificultades") );
     url += `&difficulty=0&type=${questionsType.value}`
   } else if ((questionsDifficulty.value === 0) && (questionsType.value !== 0)) {
     url += `&difficulty=${questionsDifficulty.value}&type=${questionsType.value}`
@@ -112,6 +123,9 @@ let getAPIData = e => {
     });
 };
 
+// Pregunta si el jugador terminó de contestar o no sus preguntas
+// Si apenas empieza, lanza la pregunta, si está contestando en medio, lanza la siguiente
+// Si contestó todas llama a 'scores'
 const beforeStartGame = () => {
   questionIndex = questionIndex + 1;
 
@@ -126,6 +140,7 @@ const beforeStartGame = () => {
   }
 }
 
+// Crea la pregunta en cuestión
 const startGame = () => {
   let currentQuestion = questions[questionIndex];
   document.getElementById("questionName").innerText = currentQuestion.question;
@@ -165,12 +180,15 @@ const startGame = () => {
   }
 };
 
+// Quita las preguntas y nos lleva a la página final
 const scores = () => {
 
   if (players[playerIndex].highScore < currentScore) {
     players[playerIndex].highScore = currentScore;
     localStorage.setItem("playerStorageArray", JSON.stringify(players));
   }
+
+  document.getElementById("finalScore").innerText = currentScore;
 
   let headTableDiv = document.createElement("div");
   headTableDiv.setAttribute("class","score-row");
@@ -209,7 +227,7 @@ const scores = () => {
     rowTableDiv.setAttribute("class","score-row");
 
     let rowName = document.createElement("h4");
-    rowName.innerText = topPlayers[k].name;
+    rowName.innerText = topPlayers[k].name.replace(topPlayers[k].name[0], topPlayers[k].name[0].toUpperCase());
     let rowScore = document.createElement("h4");
     rowScore.innerText = topPlayers[k].highScore;
 
@@ -221,6 +239,7 @@ const scores = () => {
   }
 }
 
+// Obtiene la respuesta 1
 const ans1 = () => {
   if (currentCorrectAnswer === 1) {
     currentScore = currentScore + 1;
@@ -228,6 +247,7 @@ const ans1 = () => {
   beforeStartGame();
 }
 
+// Obtiene la respuesta 2
 const ans2 = () => {
   if (currentCorrectAnswer === 2) {
     currentScore = currentScore + 1;
@@ -235,6 +255,7 @@ const ans2 = () => {
   beforeStartGame();
 }
 
+// Obtiene la respuesta 3
 const ans3 = () => {
   if (currentCorrectAnswer === 3) {
     currentScore = currentScore + 1;
@@ -242,6 +263,7 @@ const ans3 = () => {
   beforeStartGame();
 }
 
+// Obtiene la respuesta 4
 const ans4 = () => {
   if (currentCorrectAnswer === 4) {
     currentScore = currentScore + 1;
@@ -249,12 +271,23 @@ const ans4 = () => {
   beforeStartGame();
 }
 
+// Nos regresa del final del juego a elegir las preguntas
 const startAgain = () => {
   scorePage.style.display = "none";
   formPage.style.display = "block";
   playerIndex = -1;
   questionIndex = -1;
   currentScore = 0;
+}
+
+// Nos lleva del final del juego al inicio del mismo
+const changePlayer = () => {
+  scorePage.style.display = "none";
+  initPage.style.display = "block";
+  playerIndex = -1;
+  questionIndex = -1;
+  currentScore = 0;
+  tableDiv.innerHTML = "";
 }
 
 playerNameButton.addEventListener("click", submitPlayerName);
@@ -267,3 +300,4 @@ answer3.addEventListener("click", ans3);
 answer4.addEventListener("click", ans4);
 
 restartButton.addEventListener("click", startAgain);
+changePlayerButton.addEventListener("click", changePlayer);

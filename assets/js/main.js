@@ -32,10 +32,19 @@ let changePlayerButton = document.getElementById("changePlayer");
 // Variables para almacenar sonidos
 let correctAnswerSound = document.getElementById("correct-answer-audio");
 let wrongAnswerSound = document.getElementById("wrong-answer-audio");
-// let backgroundSound = document.getElementById("background-music");
+let backgroundSound = document.getElementById("background-music");
 let buttonSound = document.getElementById("button-audio");
 let clockSound = document.getElementById("clock-music");
 let messageSound = document.getElementById("message-audio");
+
+// Variables del menú de sonidos
+let soundMenuDiv = document.getElementById("soundMenu");
+soundMenuDiv.style.display = "none";
+let soundButton = document.getElementById("soundBtn");
+let musicButton = document.getElementById("musicButton");
+let volumeBar = document.getElementById("volumeBar");
+let volumeBarContainer = document.getElementById("volumeBarContainer");
+let showVolumeSpan = document.getElementById("volumeValue");
 
 // Variables de control
 let players = JSON.parse(localStorage.getItem("playerStorageArray"));
@@ -47,6 +56,12 @@ let currentCorrectAnswer = 0;
 let maxTime = 5000;
 let answerAtTime = false;
 let scoreIsShown = false;
+let volume = 100;
+showVolumeSpan.innerText = `${volume}`
+let isBgMusicPlayed = false;
+let settingVolume = false;
+let settingSound = false;
+const volmeBarYPosdiff = volumeBar.offsetTop;
 
 // Crea un div en la esquina superior derecha con animación
 const createInfoBox = phrase => {
@@ -172,8 +187,6 @@ const timer = () => {
       }
     } else {
       questionIndex = questionIndex + 1;
-      questionsPage.appendChild( createTimeBar() );
-      setTimeout(timer, maxTime);
       startGame();
     }
   }
@@ -194,10 +207,6 @@ const beforeStartGame = () => {
   } else {
     formPage.style.display = "none";
     questionsPage.style.display = "block";
-    if (maxTime > 0) {
-      questionsPage.appendChild(createTimeBar());
-      setTimeout(timer, maxTime);
-    }
     startGame();
   }
 }
@@ -205,11 +214,21 @@ const beforeStartGame = () => {
 // Crea la pregunta en cuestión
 const startGame = () => {
   if (maxTime > 0) {
-    clockSound.load();
-    clockSound.play();
+    if (!isBgMusicPlayed) {
+      clockSound.load();
+      clockSound.play();
+    }
+    questionsPage.appendChild(createTimeBar());
+    setTimeout(timer, maxTime);
   }
 
   let currentQuestion = questions[questionIndex];
+  let replaceList = [["&#039;", "'"], ["&quot;", '"']];
+  for (let i = 0; i < replaceList.length; i++) {
+    while (currentQuestion.question.search(replaceList[i][0]) > -1) {
+      currentQuestion.question = currentQuestion.question.replace(replaceList[i][0], replaceList[i][1]);
+    }
+  }
   document.getElementById("questionName").innerText = currentQuestion.question;
 
   document.getElementById("currentScore").innerText = currentScore;
@@ -423,12 +442,54 @@ const changePlayer = () => {
   }
 }
 
-// const playBackgroundMusic = () => {
-//   backgroundSound.load();
-//   backgroundSound.play();
-// }
+const playBackgroundMusic = () => {
+  if (isBgMusicPlayed) {
+    isBgMusicPlayed = false;
+    backgroundSound.pause();
+  } else {
+    isBgMusicPlayed = true;
+    backgroundSound.load();
+    backgroundSound.play();
+  }
+}
 
-//document.addEventListener("DOMContentLoaded", playBackgroundMusic);
+const findMouseCoords = (MouseEvent) => {
+  volume = 100 - (MouseEvent.pageY - (volmeBarYPosdiff + soundMenuDiv.offsetTop));
+  showVolumeSpan.innerText = `${volume}`;
+  volumeBar.style.height = `${volume}%`;
+  backgroundSound.volume = volume/100;
+  correctAnswerSound.volume = volume/100;
+  wrongAnswerSound.volume = volume/100;
+  buttonSound.volume = volume/100;
+  clockSound.volume = volume/100;
+  messageSound.volume = volume/100;
+}
+
+const setVolume = () => {
+  if (settingVolume) {
+    volumeBarContainer.removeEventListener("mousemove", findMouseCoords);
+    settingVolume = false;
+  } else {
+    volumeBarContainer.addEventListener("mousemove", findMouseCoords);
+    settingVolume = true;
+  }
+}
+
+const openSoundMenu = () => {
+  if (settingSound) {
+    soundMenuDiv.style.display = "none";
+    settingSound = false;
+} else {
+    soundMenuDiv.style.display = "flex";
+    settingSound = true;
+  }
+}
+
+soundButton.addEventListener("click", openSoundMenu);
+
+volumeBarContainer.addEventListener("click", setVolume)
+
+musicButton.addEventListener("click", playBackgroundMusic);
 
 playerNameButton.addEventListener("click", submitPlayerName);
 

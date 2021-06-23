@@ -42,6 +42,10 @@ select {
     font-size: 1.2rem;
 }
 
+img {
+    width: 100%;
+}
+
 /* FUENTES */
 @font-face {
     font-family: children-sans;
@@ -67,6 +71,98 @@ select {
 
 .audio {
     display: none;
+}
+
+.sound-btn {
+    position: absolute;
+    left: 5%;
+    bottom: 1vw;
+    right: 90%;
+    background-color: transparent;
+    border-color: transparent;
+    z-index: 2;
+}
+
+.sound-btn img {
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.sound-btn:hover img {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sound-btn:active img {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes show-sound-menu-animation {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 25vh;
+    }
+}
+
+.sound-menu {
+    position: absolute;
+    bottom: 6vw;
+    left: 5%;
+    width: 5%;
+    height: 25vh;
+    background-color: var(--orange-btn);
+    border: solid 3px black;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 2;
+}
+
+.sound-menu p {
+    text-align: center;
+    width: 100%;
+}
+
+.sound-menu input {
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.sound-menu button {
+    width: 80%;
+    margin-bottom: 5%;
+    background-color: var(--yellow-btn);
+    border: solid 3px black;
+    border-radius: 5px;
+}
+
+.sound-menu button:hover {
+    background-color: var(--yellow-btn-hover);
+}
+
+.sound-btn button:active {
+    background-color: var(--yellow-btn-active);
+}
+
+.volume-bar-container {
+    height: 100px;
+    width: 50%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-bottom: solid 2px black;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.volume-bar-container div {
+    height: 100%;
+    background-color: #22dd22;
+    width: 100%;
 }
 
 /* INITIAL */

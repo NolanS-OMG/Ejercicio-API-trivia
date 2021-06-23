@@ -164,14 +164,14 @@ const timer = () => {
   if (answerAtTime) {
     answerAtTime = false;
   } else {
-    if (questionIndex >= questions.length - 1) {
+    if (questionIndex >= questions.length-1) {
       if (scoreIsShown === false) {
         questionsPage.style.display = "none";
         scorePage.style.display = "block";
         scores();
       }
     } else {
-      questionIndex += 1;
+      questionIndex = questionIndex + 1;
       questionsPage.appendChild( createTimeBar() );
       setTimeout(timer, maxTime);
       startGame();
@@ -249,11 +249,12 @@ const startGame = () => {
 
 // Quita las preguntas y nos lleva a la página final
 const scores = () => {
+  answerAtTime = true;
+  scoreIsShown = true;
+
   if (maxTime > 0) {
     clockSound.pause();
   }
-  answerAtTime = true;
-  scoreIsShown = true;
 
   if (players[playerIndex].highScore < currentScore) {
     players[playerIndex].highScore = currentScore;
@@ -393,7 +394,7 @@ const startAgain = () => {
   }
 
   let timeBars = document.getElementsByClassName("time-bar-container");
-  for (let i = 0; i < infoMessages.length; i++) {
+  for (let i = 0; i < timeBars.length; i++) {
     timeBars[i].style.display = "none";
   }
 }

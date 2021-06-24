@@ -155,6 +155,22 @@
         width: 100%;
         padding: 1%;
     }
+
+    .sound-btn-lg {
+        bottom: 1vw;
+        width: 8%;
+        padding: 1%;
+    }
+
+    .sound-menu-lg {
+        bottom: 9vw;
+        width: 8%;
+        padding: 1%;
+    }
+
+    .corner-message-container {
+        width: 30%;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -206,6 +222,22 @@
         width: 100%;
         padding: 1%;
     }
+
+    .sound-btn-md {
+        bottom: 1vw;
+        width: 12%;
+        padding: 1%;
+    }
+
+    .sound-menu-md {
+        bottom: 13vw;
+        width: 12%;
+        padding: 1%;
+    }
+
+    .corner-message-container {
+        width: 40%;
+    }
 }
 
 @media screen and (max-width: 576px) {
@@ -256,6 +288,22 @@
     .col-sm-12 {
         width: 100%;
         padding: 1%;
+    }
+
+    .sound-btn-sm {
+        bottom: 1vw;
+        width: 16.5%;
+        padding: 1%;
+    }
+
+    .sound-menu-sm {
+        bottom: 17.5vw;
+        width: 16.5%;
+        padding: 1%;
+    }
+
+    .corner-message-container {
+        width: 45%;
     }
 }
 

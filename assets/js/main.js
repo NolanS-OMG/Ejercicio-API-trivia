@@ -61,7 +61,6 @@ showVolumeSpan.innerText = `${volume}`
 let isBgMusicPlayed = false;
 let settingVolume = false;
 let settingSound = false;
-const volmeBarYPosdiff = volumeBar.offsetTop;
 
 // Crea un div en la esquina superior derecha con animación
 const createInfoBox = phrase => {
@@ -454,23 +453,25 @@ const playBackgroundMusic = () => {
 }
 
 const findMouseCoords = (MouseEvent) => {
-  volume = 100 - (MouseEvent.pageY - (volmeBarYPosdiff + soundMenuDiv.offsetTop));
-  showVolumeSpan.innerText = `${volume}`;
-  volumeBar.style.height = `${volume}%`;
-  backgroundSound.volume = volume/100;
-  correctAnswerSound.volume = volume/100;
-  wrongAnswerSound.volume = volume/100;
-  buttonSound.volume = volume/100;
-  clockSound.volume = volume/100;
-  messageSound.volume = volume/100;
+  volume = volumeBarContainer.offsetHeight - (MouseEvent.pageY - (volumeBarContainer.offsetTop + soundMenuDiv.offsetTop));
+  showVolumeSpan.innerText = `${Math.floor((volume/volumeBarContainer.offsetHeight) * 100)}`;
+  volumeBar.style.height = `${25 * (volume/volumeBarContainer.offsetHeight)}vh`;
+  backgroundSound.volume = volume/volumeBarContainer.offsetHeight;
+  correctAnswerSound.volume = volume/volumeBarContainer.offsetHeight;
+  wrongAnswerSound.volume = volume/volumeBarContainer.offsetHeight;
+  buttonSound.volume = volume/volumeBarContainer.offsetHeight;
+  clockSound.volume = volume/volumeBarContainer.offsetHeight;
+  messageSound.volume = volume/volumeBarContainer.offsetHeight;
 }
 
 const setVolume = () => {
   if (settingVolume) {
     volumeBarContainer.removeEventListener("mousemove", findMouseCoords);
+    volumeBarContainer.removeEventListener("mouseup", setVolume);
     settingVolume = false;
   } else {
     volumeBarContainer.addEventListener("mousemove", findMouseCoords);
+    volumeBarContainer.addEventListener("mouseup", setVolume);
     settingVolume = true;
   }
 }
@@ -487,7 +488,7 @@ const openSoundMenu = () => {
 
 soundButton.addEventListener("click", openSoundMenu);
 
-volumeBarContainer.addEventListener("click", setVolume)
+volumeBarContainer.addEventListener("mousedown", setVolume);
 
 musicButton.addEventListener("click", playBackgroundMusic);
 

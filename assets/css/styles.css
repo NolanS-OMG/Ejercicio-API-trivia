@@ -102,7 +102,7 @@ img {
     bottom: 6vw;
     left: 5%;
     width: 5%;
-    height: 25vh;
+    height: 40vh;
     background-color: var(--orange-btn);
     border: solid 3px black;
     border-radius: 7px;
@@ -141,11 +141,10 @@ img {
 }
 
 .volume-bar-container {
-    height: 100px;
+    height: 25vh;
     width: 50%;
     margin-top: 5%;
     margin-bottom: 5%;
-    border-bottom: solid 2px black;
     display: flex;
     flex-direction: column-reverse;
 }
@@ -154,6 +153,7 @@ img {
     height: 100%;
     background-color: #22dd22;
     width: 100%;
+    border-bottom: solid 2px black;
 }
 
 /* INITIAL */

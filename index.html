@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/grid.css">
-    <title>Document</title>
+    <title>TRIVIA</title>
 </head>
 <body class="background">
 
@@ -43,13 +43,13 @@
                 <div class="initial-description-container">
                     <h1>
                         <div></div>
-                        TODO TRIVIAS
+                        ALL TRIVIA
                     </h1>
-                    <p>Este juego consiste en una serie de preguntas las cuales debes contestar, mientras mas preguntas contestes mas conocimiento demuestras sobre ese tema en concreto.</p>
+                    <p>This game is about answer a certain number of questions on your choice. The more correct answers you give, the more you show your knowledge on that subject</p>
                     <label>Nombre de Usuario:</label>
                     <input placeholder="Escriba su nombre" id="playerName" type="text">
                     <div class="button-container">
-                        <button id="submitPlayerName">CONFIRMAR USUARIO</button>
+                        <button id="submitPlayerName">CONFIRM</button>
                     </div>
                 </div>
             </div>
@@ -64,76 +64,76 @@
                 <div class="initial-description-container">
                     <form action="" id="questionChooser" class="display-flex flex-direction-row justify-content-center flex-wrap">
                         <div class="question-field">
-                          <label for="amount">Número de preguntas: </label>
+                          <label for="amount">Number of questions: </label>
                           <input type="number" id="amount" min="0" class="amount" value="10" />
                         </div>
                   
                         <div class="question-field">
-                          <label for="category">Categoría: </label>
+                          <label for="category">Categorie: </label>
                           <select name="" id="category">
-                            <option value="0">Cualquier categoría</option>
-                            <option value="9">Cultura general</option>
-                            <option value="10">Libros</option>
-                            <option value="11">Películas</option>
-                            <option value="12">Música</option>
-                            <option value="13">Musicales y teatros</option>
-                            <option value="14">Televisión</option>
-                            <option value="15">Videojuegos</option>
-                            <option value="16">Juegos de mesa</option>
-                            <option value="17">Ciencia y naturaleza</option>
-                            <option value="18">Computación</option>
-                            <option value="19">Matemáticas</option>
-                            <option value="20">Mitología</option>
-                            <option value="21">Deportes</option>
-                            <option value="22">Geografía</option>
-                            <option value="23">Historia</option>
-                            <option value="24">Política</option>
-                            <option value="25">Arte</option>
-                            <option value="26">Celebridades</option>
-                            <option value="27">Animales</option>
-                            <option value="28">Autos</option>
+                            <option value="0">Any</option>
+                            <option value="9">General culture</option>
+                            <option value="10">Books</option>
+                            <option value="11">Movies</option>
+                            <option value="12">Music</option>
+                            <option value="13">Musicals and theater</option>
+                            <option value="14">TV</option>
+                            <option value="15">Videogames</option>
+                            <option value="16">Table games</option>
+                            <option value="17">Science and nature</option>
+                            <option value="18">Computation</option>
+                            <option value="19">Math</option>
+                            <option value="20">Mithology</option>
+                            <option value="21">Sports</option>
+                            <option value="22">Geography</option>
+                            <option value="23">Historie</option>
+                            <option value="24">Politics</option>
+                            <option value="25">Art</option>
+                            <option value="26">Celebrities</option>
+                            <option value="27">Animals</option>
+                            <option value="28">Cars</option>
                             <option value="29">Comics</option>
                             <option value="30">Gadgets</option>
-                            <option value="31">Ánime y manga</option>
-                            <option value="32">Caricaturas</option>
+                            <option value="31">Anime and manga</option>
+                            <option value="32">Cartoons</option>
                           </select>
                         </div>
                   
                         <div class="question-field">
-                          <label for="difficulty">Dificultad: </label>
+                          <label for="difficulty">Difficulty: </label>
                           <select name="" id="difficulty">
-                            <option value="0">Cualquier dificultad</option>
-                            <option value="easy">Fácil</option>
-                            <option value="medium">Moderada</option>
-                            <option value="hard">Difícil</option>
+                            <option value="0">ANY</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Normal</option>
+                            <option value="hard">Hard</option>
                           </select>
                         </div>
                   
                         <div class="question-field">
-                          <label for="type">Tipo de pregunta: </label>
+                          <label for="type">Type of questions: </label>
                           <select name="" id="type">
-                            <option value="0">Cualquier tipo</option>
-                            <option value="multiple">Opción Múltiple</option>
-                            <option value="boolean">Verdadero / Falso</option>
+                            <option value="0">ANY</option>
+                            <option value="multiple">Multiple options</option>
+                            <option value="boolean">True / False</option>
                           </select>
                         </div>
 
                         <div class="question-field">
-                            <label for="">Tiempo por pregunta:</label>
+                            <label for="">Time per question:</label>
                             <select name="" id="time">
-                                <option value="0">Sin tiempo</option>
-                                <option value="5000">5 segundos</option>
-                                <option value="10000">10 segundos</option>
-                                <option value="15000">15 segundos</option>
-                                <option value="30000">30 segundos</option>
-                                <option value="60000">1 minuto</option>
-                                <option value="90000">1 minuto y 30 segundos</option>
-                                <option value="180000">3 minutos</option>
-                                <option value="300000">5 minutos</option>
+                                <option value="0">No time</option>
+                                <option value="5000">5 seconds</option>
+                                <option value="10000">10 seconds</option>
+                                <option value="15000">15 seconds</option>
+                                <option value="30000">30 seconds</option>
+                                <option value="60000">1 minute</option>
+                                <option value="90000">1 minute y 30 seconds</option>
+                                <option value="180000">3 minutes</option>
+                                <option value="300000">5 minutes</option>
                               </select>
                         </div>
 
-                        <input class="simulate-btn" type="submit" value="Comenzar" />
+                        <input class="simulate-btn" type="submit" value="START" />
                       </form>
                 </div>
             </div>

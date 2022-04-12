@@ -467,11 +467,9 @@ const findMouseCoords = (MouseEvent) => {
 const setVolume = () => {
   if (settingVolume) {
     volumeBarContainer.removeEventListener("mousemove", findMouseCoords);
-    volumeBarContainer.removeEventListener("mouseup", setVolume);
     settingVolume = false;
   } else {
     volumeBarContainer.addEventListener("mousemove", findMouseCoords);
-    volumeBarContainer.addEventListener("mouseup", setVolume);
     settingVolume = true;
   }
 }
@@ -489,6 +487,7 @@ const openSoundMenu = () => {
 soundButton.addEventListener("click", openSoundMenu);
 
 volumeBarContainer.addEventListener("mousedown", setVolume);
+volumeBarContainer.addEventListener("click", setVolume);
 
 musicButton.addEventListener("click", playBackgroundMusic);
 

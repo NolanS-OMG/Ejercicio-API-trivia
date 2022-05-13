@@ -113,7 +113,7 @@ const submitPlayerName = () => {
   buttonSound.play();
 
   if (document.getElementById("playerName").value.trim() === "") {
-    initPage.appendChild(createInfoBox("Ese nombre no es válido"));
+    initPage.appendChild(createInfoBox("The name is not valid"));
     return;
   }
 
@@ -124,18 +124,18 @@ const submitPlayerName = () => {
   if ((players === null)  || (players === [])) {
     players = [{name:playerName.toLowerCase(), highScore:0}];
     playerIndex = 0;
-    infoPhrase = "Se agregó un usuario nuevo";
+    infoPhrase = "New user added";
   } else {
     players.forEach((player, index) => {
       if (playerName.toLowerCase() === player.name) {
         playerIndex = index;
-        infoPhrase = "Bienvenido de nuevo " + playerName.trim();
+        infoPhrase = "Welcome again " + playerName.trim();
       }
     });
     if (playerIndex === -1) {
       playerIndex = players.length;
       players.push({name: playerName.toLowerCase(), highScore: 0});
-      infoPhrase = "Se agregó un usuario nuevo";
+      infoPhrase = "New user added";
     }
   }
 
